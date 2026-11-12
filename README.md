@@ -29,16 +29,21 @@ public URL so a stranger can't claim the second seat.
 
 ## Putting it online so you can both reach it
 
-It is one always-on Node process that keeps its data in a single file (`DATA_DIR/db.json`). Any host that
-runs a Docker container with a persistent disk works — for example Railway, Render or Fly.io:
+It is one always-on Node process that keeps its data in a single file (`DATA_DIR/db.json`), so it needs a
+host with a persistent disk. The repo is set up for [Railway](https://railway.com) (`railway.json`):
 
-1. Create a new service from this GitHub repository (the `Dockerfile` is picked up automatically).
-2. Attach a persistent volume mounted at `/data`.
-3. Set `INVITE_CODE` (and optionally `SOLANA_RPC_URL`).
-4. Open the URL the host gives you, create your account, and send your friend the URL and invite code.
+1. Sign up at railway.com with your GitHub account and pick the Hobby plan.
+2. **New Project → Deploy from GitHub repo →** choose this repository. In the service's
+   **Settings → Source**, set the branch to the one holding this code.
+3. Right-click the service → **Attach volume**, mount path `/data`. Without this, accounts and
+   balances are wiped on every redeploy.
+4. **Variables** tab: add `INVITE_CODE` (any secret phrase) and, optionally, `SOLANA_RPC_URL`.
+5. **Settings → Networking → Generate Domain.** Open that address, create your account, then send
+   your friend the address and the invite code.
 
-The host must keep the process running continuously (not a "sleep when idle" plan), otherwise trades made
-while it sleeps are missed.
+Any other host that runs a Docker container with a persistent disk mounted at `/data` works the same way
+(Render, Fly.io, a VPS). Keep it to a single instance, and don't use a plan that sleeps when idle: trades
+made while it sleeps are missed.
 
 ## How the shared pool works
 

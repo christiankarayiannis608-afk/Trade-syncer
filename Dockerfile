@@ -4,6 +4,5 @@ COPY package.json ./
 COPY src ./src
 COPY public ./public
 ENV DATA_DIR=/data PORT=3000
-VOLUME /data
 EXPOSE 3000
 CMD ["node", "src/server.js"]
