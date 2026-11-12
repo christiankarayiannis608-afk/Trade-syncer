@@ -1,0 +1,12 @@
+{
+  "name": "trade-syncer",
+  "version": "0.1.0",
+  "description": "Shared copy-trading pool that mirrors top traders on Polymarket, Kalshi and Solana memecoins",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test"
+  }
+}

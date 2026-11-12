@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trade Syncer</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div id="auth" class="auth" hidden>
+  <form id="authForm" class="card auth-card">
+    <h1>Trade Syncer</h1>
+    <p class="muted" id="authLead">Sign in to your shared pool.</p>
+    <label>Name<input name="name" autocomplete="username" required></label>
+    <label>Password<input name="password" type="password" autocomplete="current-password" required minlength="8"></label>
+    <label id="inviteRow" hidden>Invite code<input name="invite" autocomplete="off"></label>
+    <p class="error" id="authError" role="alert"></p>
+    <button class="primary" id="authSubmit">Sign in</button>
+    <button type="button" class="link" id="authSwitch" hidden>Create an account</button>
+  </form>
+</div>
+
+<div id="app" hidden>
+  <header class="top">
+    <div class="brand">Trade Syncer <span class="badge" id="modeBadge">Paper trading</span></div>
+    <nav id="tabs" role="tablist">
+      <button data-tab="overview" class="active">Overview</button>
+      <button data-tab="positions">Positions</button>
+      <button data-tab="activity">Activity</button>
+      <button data-tab="traders">Traders</button>
+      <button data-tab="settings">Settings</button>
+    </nav>
+    <div class="who">
+      <button id="pauseBtn" class="ghost"></button>
+      <span id="whoName"></span>
+      <button id="logout" class="link">Sign out</button>
+    </div>
+  </header>
+  <p class="banner" id="banner" hidden></p>
+
+  <main>
+    <section id="overview">
+      <div class="tiles" id="tiles"></div>
+      <div class="grid2">
+        <div class="card">
+          <h2>Pool value</h2>
+          <div id="chart" class="chart"></div>
+        </div>
+        <div class="card">
+          <h2>Members</h2>
+          <table id="members"></table>
+          <form id="moneyForm" class="row">
+            <input name="amount" type="number" min="1" step="any" placeholder="Amount in $" required aria-label="Amount in dollars">
+            <button class="primary" value="deposit">Add money</button>
+            <button class="ghost" value="withdraw">Withdraw</button>
+          </form>
+          <p class="muted small">Paper mode: this is practice money. Adding money buys you a share of the pool at its current value, so later deposits are split fairly.</p>
+          <p class="error" id="moneyError" role="alert"></p>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Latest trades</h2>
+        <table id="recent"></table>
+      </div>
+    </section>
+
+    <section id="positions" hidden>
+      <div class="card"><h2>Open positions</h2><table id="posTable"></table></div>
+    </section>
+
+    <section id="activity" hidden>
+      <div class="card"><h2>Trades</h2><table id="tradeTable"></table></div>
+      <div class="card"><h2>Signals not copied</h2><p class="muted small">Trades the traders made that the pool skipped, and why.</p><table id="skipTable"></table></div>
+      <div class="card"><h2>Deposits and withdrawals</h2><table id="ledgerTable"></table></div>
+    </section>
+
+    <section id="traders" hidden>
+      <div class="card">
+        <h2>Who the pool copies</h2>
+        <table id="traderTable"></table>
+        <form id="traderForm" class="row wrap">
+          <select name="venue" aria-label="Venue">
+            <option value="polymarket">Polymarket wallet</option>
+            <option value="solana">Solana wallet (memecoins)</option>
+          </select>
+          <input name="address" placeholder="Wallet address" required aria-label="Wallet address">
+          <input name="name" placeholder="Nickname (optional)" aria-label="Nickname">
+          <button class="primary">Follow</button>
+        </form>
+        <p class="error" id="traderError" role="alert"></p>
+      </div>
+      <div class="grid2">
+        <div class="card"><h2>Polymarket leaderboard</h2><table id="lbPoly"><tr><td class="muted">Loading…</td></tr></table></div>
+        <div class="card"><h2>Kalshi leaderboard</h2>
+          <p class="muted small">Kalshi's top traders keep their trades private, so they can't be copied one by one. The pool copies Kalshi through the whale feed: unusually large orders on the public tape.</p>
+          <table id="lbKalshi"><tr><td class="muted">Loading…</td></tr></table></div>
+      </div>
+    </section>
+
+    <section id="settings" hidden>
+      <form id="settingsForm" class="card settings"></form>
+    </section>
+  </main>
+  <footer class="muted small" id="health"></footer>
+</div>
+<script src="/app.js"></script>
+</body>
+</html>
